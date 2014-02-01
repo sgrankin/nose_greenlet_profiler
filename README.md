@@ -9,5 +9,5 @@ See `nosetests --help` for configuration options.
 
 ## See also:
 
-<http://emptysqua.re/blog/greenletprofiler/>
-<https://github.com/ajdavis/GreenletProfiler>
+* <http://emptysqua.re/blog/greenletprofiler/>
+* <https://github.com/ajdavis/GreenletProfiler>
