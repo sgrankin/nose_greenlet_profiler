@@ -57,8 +57,8 @@ class Profile(Plugin):
     def configure(self, options, conf):
         super(Profile, self).configure(options, conf)
         self.conf = conf
-        logger.warning('configuring with options %r', options)
-        logger.warning('configuring with conv %r', conf)
+        logger.debug('configuring with options %r', options)
+        logger.debug('configuring with conv %r', conf)
 
         if options.stats_file: self.stats_file = options.stats_file
         if options.stats_type: self.stats_type = options.stats_type
@@ -72,7 +72,7 @@ class Profile(Plugin):
 
     def prepareTest(self, test):
         ''' Wrap entire test run in :func:`prof.runcall`. '''
-        logger.warning('preparing test %s' % test)
+        logger.debug('preparing test %s' % test)
         def run_and_profile(result):
             GreenletProfiler.start()
             try:
@@ -84,11 +84,11 @@ class Profile(Plugin):
         return run_and_profile
 
     def report(self, stream):
-        logger.warning('printing stats? %d', self.stats_print)
+        logger.debug('printing stats? %d', self.stats_print)
         if not self.stats_print:
             self.stats.print_all(stream)
 
-        logger.warning('dumping stats? %s', self.stats_file)
+        logger.debug('dumping stats? %s', self.stats_file)
         if self.stats_file:
             self.stats.save(self.stats_file, type=self.stats_type)
 
