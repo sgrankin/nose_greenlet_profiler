@@ -1,0 +1,8 @@
+*.pyc
+/*.egg-info/
+/*.egg/
+/.noseids
+/build/
+/dist/
+/spooky_hash.so
+/src/spooky_hash.cpp
