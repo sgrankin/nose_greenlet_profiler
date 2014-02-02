@@ -14,7 +14,7 @@ except:
 
 setup(
   name='nose_greenlet_profiler',
-  version='1.0.1',
+  version='1.0.2',
 
   description='GreenletProfiler plugin for Nose',
   author='Sergey Grankin',

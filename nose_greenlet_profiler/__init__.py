@@ -6,8 +6,7 @@ import GreenletProfiler
 from nose.plugins.base import Plugin
 from nose.util import tolist
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger('nose.plugins')
+logger = logging.getLogger('nose.plugins.nose_greenlet_profiler')
 
 class Profile(Plugin):
     ''' Use this plugin to run tests using the GreenletProfiler profiler. '''
