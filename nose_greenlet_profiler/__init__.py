@@ -71,7 +71,7 @@ class Profile(Plugin):
 
     def prepareTest(self, test):
         ''' Wrap entire test run in :func:`prof.runcall`. '''
-        logger.debug('preparing test %s' % test)
+        logger.debug(f'preparing test {test}')
         def run_and_profile(result):
             GreenletProfiler.start()
             try:

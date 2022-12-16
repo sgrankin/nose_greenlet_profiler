@@ -13,9 +13,12 @@ the appropriate options to ``use_setuptools()``.
 
 This file can also be run as a script to install or upgrade setuptools.
 """
+
 import sys
 DEFAULT_VERSION = "0.6c11"
-DEFAULT_URL     = "http://pypi.python.org/packages/%s/s/setuptools/" % sys.version[:3]
+DEFAULT_URL = (
+    f"http://pypi.python.org/packages/{sys.version[:3]}/s/setuptools/"
+)
 
 md5_data = {
     'setuptools-0.6b1-py2.3.egg': '8822caf901250d848b996b7f25c6e6ca',
@@ -130,7 +133,7 @@ def download_setuptools(
     `delay` is the number of seconds to pause before an actual download attempt.
     """
     import urllib2, shutil
-    egg_name = "setuptools-%s-py%s.egg" % (version,sys.version[:3])
+    egg_name = f"setuptools-{version}-py{sys.version[:3]}.egg"
     url = download_base + egg_name
     saveto = os.path.join(to_dir, egg_name)
     src = dst = None
@@ -222,7 +225,7 @@ def main(argv, version=DEFAULT_VERSION):
             )
             sys.exit(2)
 
-    req = "setuptools>="+version
+    req = f"setuptools>={version}"
     import pkg_resources
     try:
         pkg_resources.require(req)
@@ -237,9 +240,6 @@ def main(argv, version=DEFAULT_VERSION):
         if argv:
             from setuptools.command.easy_install import main
             main(argv)
-        else:
-            print "Setuptools version",version,"or greater has been installed."
-            print '(Run "ez_setup.py -U setuptools" to reinstall or upgrade.)'
 
 def update_md5(filenames):
     """Update our built-in md5 registry"""
@@ -248,27 +248,25 @@ def update_md5(filenames):
 
     for name in filenames:
         base = os.path.basename(name)
-        f = open(name,'rb')
-        md5_data[base] = md5(f.read()).hexdigest()
-        f.close()
-
+        with open(name,'rb') as f:
+            md5_data[base] = md5(f.read()).hexdigest()
     data = ["    %r: %r,\n" % it for it in md5_data.items()]
     data.sort()
     repl = "".join(data)
 
     import inspect
     srcfile = inspect.getsourcefile(sys.modules[__name__])
-    f = open(srcfile, 'rb'); src = f.read(); f.close()
-
+    with open(srcfile, 'rb') as f:
+        src = f.read()
+    match = re.search("\nmd5_data = {\n([^}]+)}", src)
     match = re.search("\nmd5_data = {\n([^}]+)}", src)
     if not match:
         print >>sys.stderr, "Internal error!"
         sys.exit(2)
 
     src = src[:match.start(1)] + repl + src[match.end(1):]
-    f = open(srcfile,'w')
-    f.write(src)
-    f.close()
+    with open(srcfile,'w') as f:
+        f.write(src)
 
 
 if __name__=='__main__':
